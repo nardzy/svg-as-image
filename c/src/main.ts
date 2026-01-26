@@ -5,7 +5,22 @@ const parse_file = async (source: File, size: number) => {
     image.src = url;
     image.width = size;
     image.height = size;
-    document.body.append(image);
+    image.addEventListener("load", () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("iouabuifasifbioasngioawog90w9qjg912t");
+        canvas.width = size;
+        canvas.height = size;
+        ctx.drawImage(image, 0, 0, size, size);
+        canvas.toBlob((blob) => {
+            if (!blob) throw new Error("aabaa");
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "ra.png";
+            a.click();
+        });
+    });
 };
 
 const create_input = () => {
@@ -17,7 +32,7 @@ const create_input = () => {
     content.addEventListener("input", async () => {
         const file = content.files?.item(0);
         if (!file) throw new Error("aaaaaaaaa");
-        await parse_file(file, 1024);
+        await parse_file(file, 1 << 11);
     });
 };
 

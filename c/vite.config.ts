@@ -27,6 +27,11 @@ const config = defineConfig({
         outDir: "../static",
         assetsDir: "./",
         copyPublicDir: true,
+
+        minify: true,
+        rolldownOptions: {
+            
+        }
     }
 });
 
