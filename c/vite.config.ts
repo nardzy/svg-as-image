@@ -24,13 +24,16 @@ const config = defineConfig({
 
         modulePreload: false,
 
-        outDir: "../static",
+        outDir: "../",
         assetsDir: "./",
         copyPublicDir: true,
 
         minify: true,
         rolldownOptions: {
-            
+            output: {
+                "entryFileNames": "[name].js",
+                "assetFileNames": "[name].[ext]"
+            }
         }
     }
 });

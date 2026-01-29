@@ -1,1 +1,0 @@
-var e=async(e,t)=>{let n=URL.createObjectURL(e),r=new Image;r.src=n,r.width=t,r.height=t,document.body.append(r)};(()=>{let t=document.createElement(`div`),n=document.createElement(`input`);n.type=`file`,t.append(n),document.body.append(t),n.addEventListener(`input`,async()=>{let t=n.files?.item(0);if(!t)throw Error(`aaaaaaaaa`);await e(t,1024)})})();

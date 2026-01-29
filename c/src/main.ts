@@ -5,21 +5,17 @@ const parse_file = async (source: File, size: number) => {
     image.src = url;
     image.width = size;
     image.height = size;
-    image.addEventListener("load", () => {
-        const canvas = document.createElement("canvas");
+    image.addEventListener("load", async () => {
+        const canvas = new OffscreenCanvas(size, size);
         const ctx = canvas.getContext("2d");
         if (!ctx) throw new Error("iouabuifasifbioasngioawog90w9qjg912t");
-        canvas.width = size;
-        canvas.height = size;
         ctx.drawImage(image, 0, 0, size, size);
-        canvas.toBlob((blob) => {
-            if (!blob) throw new Error("aabaa");
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "ra.png";
-            a.click();
-        });
+        const blob = await canvas.convertToBlob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ra.png";
+        a.click();
     });
 };
 
