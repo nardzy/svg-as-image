@@ -1,14 +1,22 @@
 
 import { defineConfig, type PluginOption } from "vite";
+import { minify }from "html-minifier-terser";
 
-const hash = (len: number) => {
-    let i = 0;
-    let str = "";
-    while (i < len) {
-        str += (Math.random() * 36 >>> 0).toString(36);
-        i += 1;
+const html = (): PluginOption => {
+    return {
+        name: "replaced",
+        async transformIndexHtml(html) {
+            const ref = "/index.js";
+            const def = html.replace(ref, `.${ref}`);
+            const min = await minify(def, {
+                minifyJS: true,
+                minifyCSS: true,
+                collapseWhitespace: true,
+                collapseInlineTagWhitespace: true,
+            });
+            return min;
+        }
     }
-    return str;
 };
 
 const config = defineConfig({
@@ -18,6 +26,7 @@ const config = defineConfig({
         },
         port: 1420
     },
+    plugins: [html()],
     build: {
 
         target: "es2020",
@@ -29,11 +38,34 @@ const config = defineConfig({
         copyPublicDir: true,
 
         minify: true,
+        
         rolldownOptions: {
             output: {
                 "entryFileNames": "[name].js",
                 "assetFileNames": "[name].[ext]"
             }
+        },
+
+        
+        terserOptions: {
+            format: {
+                ecma: 2020,
+                semicolons: true,
+                braces: false,
+            },
+            compress: {
+
+                evaluate: true,
+                hoist_funs: true,
+
+                ecma: 2020,
+
+                unsafe: true,
+                unsafe_arrows: true,
+
+                passes: 1,
+
+            },
         }
     }
 });
